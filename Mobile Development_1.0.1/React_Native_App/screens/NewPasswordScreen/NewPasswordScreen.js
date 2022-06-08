@@ -5,12 +5,13 @@ import CustomButton from '../../components/CustomButton';
 import SocialSignInButtons from '../../components/SocialSignInButtons';
 import { useNavigation } from '@react-navigation/native';
 
-const ForgotPasswordScreen = () => {
-    const [username, setUsername] = useState('');
+const NewPasswordScreen = () => {
+    const [code, setCode] = useState('');
+    const [newPassword,setNewPassword] = useState('');
 
     const navigation = useNavigation();
 
-    const onSendPressed = () => { navigation.navigate('NewPassword'); };
+    const onSubmitPressed = () => { navigation.navigate('SignIn'); };
     const onSignInPress = () => { navigation.navigate('SignIn'); };
    
     return (
@@ -18,9 +19,11 @@ const ForgotPasswordScreen = () => {
             <View styles={styles.root}>
                 <Text style={styles.title}>Reset your password</Text>
 
-                <CustomInput placeholder="Username" value={username} setValue={setUsername} />
-               
-                <CustomButton text="Send" onPress={onSendPressed} />
+                <CustomInput placeholder="Code" value={code} setValue={setCode} />
+
+                <CustomInput placeholder="Enter your new password" value={newPassword} setValue={setNewPassword} />
+
+                <CustomButton text="Submit" onPress={onSubmitPressed} />
 
                 <CustomButton text="Back to Sign in " onPress={onSignInPress} type="TERTIARY" />
 
@@ -43,7 +46,7 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
         color: '#051C60',
         margin: 10,
-        marginTop: '10%',
+        marginTop: '50%',
         marginLeft: '15%'
     },
     text: {
@@ -58,4 +61,4 @@ const styles = StyleSheet.create({
     }
 });
 
-export default ForgotPasswordScreen;
+export default NewPasswordScreen;

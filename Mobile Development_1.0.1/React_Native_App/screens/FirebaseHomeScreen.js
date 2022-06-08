@@ -18,7 +18,7 @@ const FirebaseHomeScreen = () => {
      auth
         .signOut()
         .then(()=>{
-          navigation.navigate("FirebaseLogin")
+          navigation.navigate("SignIn")
         })
           .catch(error => alert(error.message))
   }

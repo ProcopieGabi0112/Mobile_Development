@@ -6,7 +6,7 @@ import ModalView from '../components/ModalView';
 import PostCardItem from '../components/PostCardItem';
 
 
-const url = 'https://d67e-188-26-252-180.ngrok.io/orders'
+const url = 'https://2391-188-26-252-180.ngrok.io/dishes'
 
 const headers = {
     'Content-Type': 'application/json',
@@ -16,12 +16,12 @@ const headers = {
 export default function App() {
     const [data, setData] = useState([]);
     const [visible, setVisible] = useState(false);
-    const [order, setOrder] = useState('');
-    const [table, setTable] = useState('');
-    const [tableId, setTableId] = useState(0);
+    const [description, setDescription] = useState('');
+    const [name, setName] = useState('');
+    const [dishId, setDishId] = useState(0);
     const [loading, setLoading] = useState(false);
 
-    const getOrders = async () => {
+    const getDishes = async () => {
         setLoading(true)
         await fetch(url)
             .then((res) => res.json())
@@ -32,117 +32,119 @@ export default function App() {
         setLoading(false)
     }
 
-    const addOrder = (order, table) => {
+    const addDish = (description, name) => {
         fetch(url, {
             method: "POST",
             headers,
             body: JSON.stringify({
-                "table": table,
-                "order": order,
+                "name": name,
+                "description": description,
             })
         }).then((res) => res.json())
             .then(resJson => {
                 console.log('post:', resJson)
-                updateOrder()
+                updateDish()
             }).catch(e => { console.log(e) })
     }
 
-    const editOrder = (tableId, order, table) => {
-        fetch(url + `/${tableId}`, {
+    const editDish = (dishId, description, name) => {
+        fetch(url + `/${dishId}`, {
             method: "PUT",
             headers,
             body: JSON.stringify({
-                "table": table,
-                "order": order,
+                "name": name,
+                "description": description,
             })
         }).then((res) => res.json())
             .then(resJson => {
                 console.log('updated:', resJson)
-                updateOrder()
+                updateDish()
             }).catch(e => { console.log(e) })
     }
 
-    const deleteOrder = (tableId) => {
-        fetch(url + `/${tableId}`, {
+    const deleteDish = (dishId) => {
+        fetch(url + `/${dishId}`, {
             method: "DELETE",
             headers,
         }).then((res) => res.json())
             .then(resJson => {
                 console.log('delete:', resJson)
-                getOrders()
+                getDishes()
             }).catch(e => { console.log(e) })
     }
 
-    const updateOrder = () => {
-        getOrders()
+    const updateDish = () => {
+        getDishes()
         setVisible(false);
-        setTable('')
-        setOrder('')
-        setTableId(0)
+        setName('')
+        setDescription('')
+        setDishId(0)
     }
 
-    const edit = (id, order, table) => {
+    const edit = (id, description, name) => {
         setVisible(true)
-        setTableId(id)
-        setOrder(order)
-        setTable(table)
+        setDishId(id)
+        setDescription(description)
+        setName(name)
     }
 
     useEffect(() => {
-        getOrders();
+        getDishes();
     }, [])
 
     return (
         <SafeAreaView style={styles.container}>
             <StatusBar style="auto" />
             <Surface style={styles.header}>
-                <Title>Dutch Delight orders</Title>
+                <Title>Dutch Delight Menu</Title>
+                {/*
                 <TouchableOpacity style={styles.button} onPress={() => setVisible(true)}>
-                    <Text style={styles.buttonText}>Add order</Text>
+                    <Text style={styles.buttonText}>Add Dish</Text>
                 </TouchableOpacity>
+                */}
             </Surface>
-            {/*
             <FlatList
                 data={data}
                 keyExtractor={(item, index) => item.id + index.toString()}
                 refreshing={loading}
-                onRefresh={getOrders}
+                onRefresh={getDishes}
                 renderItem={({ item }) => (
                     <PostCardItem
-                        title={item.table}
-                        author={item.order}
-                        onEdit={() => edit(item.id, item.order, item.table)}
-                        onDelete={() => deleteOrder(item.id)}
+                        title={item.name}
+                        author={item.description}
+                       // onEdit={() => edit(item.id, item.description, item.name)}
+                       // onDelete={() => deleteDish(item.id)}
                     />
                 )}
             />
-            */}
+            {/*
             <ModalView
                 visible={visible}
-                title="Add Order"
+                title="Add Dish"
                 onDismiss={() => setVisible(false)}
                 onSubmit={() => {
-                    if (tableId && order && table) {
-                        editOrder(tableId, order, table)
+                    if (dishId && description && name) {
+                        editDish(dishId, description, name)
                     } else {
-                        addOrder(order, table)
+                        addDish(description, name)
                     }
                 }}
                 cancelable>
                 <TextInput
-                    label="Numarul mesei"
-                    value={table}
-                    onChangeText={(text) => setTable(text)}
+                    label="Nume"
+                    value={name}
+                    onChangeText={(text) => setName(text)}
                     mode="outlined"
                 />
                 <TextInput
-                    label="Comanda dumneavoastra"
-                    value={order}
-                    onChangeText={(text) => setOrder(text)}
+                    label="Descriere"
+                    value={description}
+                    onChangeText={(text) => setDescription(text)}
                     mode="outlined"
                 />
-
+                
             </ModalView>
+            */}
         </SafeAreaView>
     );
 }
@@ -152,18 +154,18 @@ const styles = StyleSheet.create({
         flex: 1,
         backgroundColor: '#fff',
         justifyContent: 'center',
-        backgroundColor: '#fc8905',
+        backgroundColor:'#943ddb',
     },
     header: {
         marginTop: Platform.OS === 'android' ? 35 : 0,
         padding: 16,
         elevation: 2,
-        flexDirection: 'row',
-        justifyContent: 'space-between',
+        flexDirection:'row',
+        justifyContent:'space-between',
         alignItems: 'center',
-        backgroundColor: 'white',
-
-
+        backgroundColor:'white',
+         
+        
     },
     button: {
         padding: 10,

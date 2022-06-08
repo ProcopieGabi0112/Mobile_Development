@@ -6,7 +6,7 @@ import ModalView from '../components/ModalView';
 import PostCardItem from '../components/PostCardItem';
 
 
-const url = 'https://d67e-188-26-252-180.ngrok.io/comments'
+const url = 'https://2391-188-26-252-180.ngrok.io/orders'
 
 const headers = {
     'Content-Type': 'application/json',
@@ -16,12 +16,12 @@ const headers = {
 export default function App() {
     const [data, setData] = useState([]);
     const [visible, setVisible] = useState(false);
-    const [comment, setComment] = useState('');
-    const [client, setClient] = useState('');
-    const [clientId, setClientId] = useState(0);
+    const [order, setOrder] = useState('');
+    const [table, setTable] = useState('');
+    const [tableId, setTableId] = useState(0);
     const [loading, setLoading] = useState(false);
 
-    const getComments = async () => {
+    const getOrders = async () => {
         setLoading(true)
         await fetch(url)
             .then((res) => res.json())
@@ -32,111 +32,113 @@ export default function App() {
         setLoading(false)
     }
 
-    const addComment = (comment, client) => {
+    const addOrder = (order, table) => {
         fetch(url, {
             method: "POST",
             headers,
             body: JSON.stringify({
-                "client": client,
-                "comment": comment,
+                "table": table,
+                "order": order,
             })
         }).then((res) => res.json())
             .then(resJson => {
                 console.log('post:', resJson)
-                updateComment()
+                updateOrder()
             }).catch(e => { console.log(e) })
     }
 
-    const editComment = (clientId, comment, client) => {
-        fetch(url + `/${clientId}`, {
+    const editOrder = (tableId, order, table) => {
+        fetch(url + `/${tableId}`, {
             method: "PUT",
             headers,
             body: JSON.stringify({
-                "client": client,
-                "comment": comment,
+                "table": table,
+                "order": order,
             })
         }).then((res) => res.json())
             .then(resJson => {
                 console.log('updated:', resJson)
-                updateComment()
+                updateOrder()
             }).catch(e => { console.log(e) })
     }
 
-    const deleteComment = (clientId) => {
-        fetch(url + `/${clientId}`, {
+    const deleteOrder = (tableId) => {
+        fetch(url + `/${tableId}`, {
             method: "DELETE",
             headers,
         }).then((res) => res.json())
             .then(resJson => {
                 console.log('delete:', resJson)
-                getComments()
+                getOrders()
             }).catch(e => { console.log(e) })
     }
 
-    const updateComment = () => {
-        getComments()
+    const updateOrder = () => {
+        getOrders()
         setVisible(false);
-        setClient('')
-        setComment('')
-        setClientId(0)
+        setTable('')
+        setOrder('')
+        setTableId(0)
     }
 
-    const edit = (id, comment, client) => {
+    const edit = (id, order, table) => {
         setVisible(true)
-        setClientId(id)
-        setComment(comment)
-        setClient(client)
+        setTableId(id)
+        setOrder(order)
+        setTable(table)
     }
 
     useEffect(() => {
-        getComments();
+        getOrders();
     }, [])
 
     return (
         <SafeAreaView style={styles.container}>
             <StatusBar style="auto" />
             <Surface style={styles.header}>
-                <Title>Dutch Delight Comments</Title>
+                <Title>Dutch Delight orders</Title>
                 <TouchableOpacity style={styles.button} onPress={() => setVisible(true)}>
-                    <Text style={styles.buttonText}>Add Comment</Text>
+                    <Text style={styles.buttonText}>Add order</Text>
                 </TouchableOpacity>
             </Surface>
+            {/*
             <FlatList
                 data={data}
                 keyExtractor={(item, index) => item.id + index.toString()}
                 refreshing={loading}
-                onRefresh={getComments}
+                onRefresh={getOrders}
                 renderItem={({ item }) => (
                     <PostCardItem
-                        title={item.client}
-                        author={item.comment}
-                        onEdit={() => edit(item.id, item.comment, item.client)}
-                        onDelete={() => deleteComment(item.id)}
+                        title={item.table}
+                        author={item.order}
+                        onEdit={() => edit(item.id, item.order, item.table)}
+                        onDelete={() => deleteOrder(item.id)}
                     />
                 )}
             />
+            */}
             <ModalView
                 visible={visible}
-                title="Add Comment"
+                title="Add Order"
                 onDismiss={() => setVisible(false)}
                 onSubmit={() => {
-                    if (clientId && comment && client) {
-                        editComment(clientId, comment, client)
+                    if (tableId && order && table) {
+                        editOrder(tableId, order, table)
                     } else {
-                        addComment(comment, client)
+                        addOrder(order, table)
                     }
                 }}
                 cancelable>
                 <TextInput
-                    label="Nume client"
-                    value={client}
-                    onChangeText={(text) => setClient(text)}
+                    label="Numarul mesei"
+                    value={table}
+                    onChangeText={(text) => setTable(text)}
                     mode="outlined"
                 />
                 <TextInput
-                    label="Comentariu"
-                    value={comment}
-                    onChangeText={(text) => setComment(text)}
+                    label="Comanda dumneavoastra"
+                    value={order}
+                    onChangeText={(text) => setOrder(text)}
                     mode="outlined"
                 />
 
@@ -150,7 +152,7 @@ const styles = StyleSheet.create({
         flex: 1,
         backgroundColor: '#fff',
         justifyContent: 'center',
-        backgroundColor: '#08fc6e',
+        backgroundColor: '#fc8905',
     },
     header: {
         marginTop: Platform.OS === 'android' ? 35 : 0,

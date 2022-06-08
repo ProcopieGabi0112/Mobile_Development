@@ -10,7 +10,7 @@ const ConfirmEmailScreen = () => {
     
     const navigation = useNavigation();
     
-    const onConfirmPressed = () => { navigation.navigate('MainScreen');  };
+    const onConfirmPressed = () => { navigation.navigate('SignIn');  };
     const onSignInPress = () => {  navigation.navigate('SignIn'); };
     const onResendPress = () => { console.warn('onResendPress'); };
     return (

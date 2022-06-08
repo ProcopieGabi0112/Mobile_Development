@@ -4,8 +4,8 @@ import { SafeAreaView } from 'react-native-safe-area-context'
 
 const Listing = () => {
     const [counter,setCounter] = useState(0)
-    const dataArray =  ["Rest API Integration",
-                        "Data Persistance",
+    const dataArray =  ["Rest API Integration DONE",
+                        "Data Persistance DONE",
                         "Navigation System DONE",
                         "Social Login - Facebook, Google, Apple",
                         "Animations - reanimated.js sau Animated API",

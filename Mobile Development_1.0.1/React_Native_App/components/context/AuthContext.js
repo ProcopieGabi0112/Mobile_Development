@@ -1,6 +1,7 @@
 import React,{useState,createContext} from 'react';
 import axios from 'axios';
 //import {BASE_URL} from '../config';
+import { LogBox } from 'react-native';
 import { AsyncStorage } from 'react-native'
 
 export const AuthContext = createContext();

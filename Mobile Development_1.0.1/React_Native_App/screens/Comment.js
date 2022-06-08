@@ -6,7 +6,7 @@ import ModalView from '../components/ModalView';
 import PostCardItem from '../components/PostCardItem';
 
 
-const url = 'https://d67e-188-26-252-180.ngrok.io/dishes'
+const url = 'https://2391-188-26-252-180.ngrok.io/comments'
 
 const headers = {
     'Content-Type': 'application/json',
@@ -16,12 +16,12 @@ const headers = {
 export default function App() {
     const [data, setData] = useState([]);
     const [visible, setVisible] = useState(false);
-    const [description, setDescription] = useState('');
-    const [name, setName] = useState('');
-    const [dishId, setDishId] = useState(0);
+    const [comment, setComment] = useState('');
+    const [client, setClient] = useState('');
+    const [clientId, setClientId] = useState(0);
     const [loading, setLoading] = useState(false);
 
-    const getDishes = async () => {
+    const getComments = async () => {
         setLoading(true)
         await fetch(url)
             .then((res) => res.json())
@@ -32,119 +32,115 @@ export default function App() {
         setLoading(false)
     }
 
-    const addDish = (description, name) => {
+    const addComment = (comment, client) => {
         fetch(url, {
             method: "POST",
             headers,
             body: JSON.stringify({
-                "name": name,
-                "description": description,
+                "client": client,
+                "comment": comment,
             })
         }).then((res) => res.json())
             .then(resJson => {
                 console.log('post:', resJson)
-                updateDish()
+                updateComment()
             }).catch(e => { console.log(e) })
     }
 
-    const editDish = (dishId, description, name) => {
-        fetch(url + `/${dishId}`, {
+    const editComment = (clientId, comment, client) => {
+        fetch(url + `/${clientId}`, {
             method: "PUT",
             headers,
             body: JSON.stringify({
-                "name": name,
-                "description": description,
+                "client": client,
+                "comment": comment,
             })
         }).then((res) => res.json())
             .then(resJson => {
                 console.log('updated:', resJson)
-                updateDish()
+                updateComment()
             }).catch(e => { console.log(e) })
     }
 
-    const deleteDish = (dishId) => {
-        fetch(url + `/${dishId}`, {
+    const deleteComment = (clientId) => {
+        fetch(url + `/${clientId}`, {
             method: "DELETE",
             headers,
         }).then((res) => res.json())
             .then(resJson => {
                 console.log('delete:', resJson)
-                getDishes()
+                getComments()
             }).catch(e => { console.log(e) })
     }
 
-    const updateDish = () => {
-        getDishes()
+    const updateComment = () => {
+        getComments()
         setVisible(false);
-        setName('')
-        setDescription('')
-        setDishId(0)
+        setClient('')
+        setComment('')
+        setClientId(0)
     }
 
-    const edit = (id, description, name) => {
+    const edit = (id, comment, client) => {
         setVisible(true)
-        setDishId(id)
-        setDescription(description)
-        setName(name)
+        setClientId(id)
+        setComment(comment)
+        setClient(client)
     }
 
     useEffect(() => {
-        getDishes();
+        getComments();
     }, [])
 
     return (
         <SafeAreaView style={styles.container}>
             <StatusBar style="auto" />
             <Surface style={styles.header}>
-                <Title>Dutch Delight Menu</Title>
-                {/*
+                <Title>Dutch Delight Comments</Title>
                 <TouchableOpacity style={styles.button} onPress={() => setVisible(true)}>
-                    <Text style={styles.buttonText}>Add Dish</Text>
+                    <Text style={styles.buttonText}>Add Comment</Text>
                 </TouchableOpacity>
-                */}
             </Surface>
             <FlatList
                 data={data}
                 keyExtractor={(item, index) => item.id + index.toString()}
                 refreshing={loading}
-                onRefresh={getDishes}
+                onRefresh={getComments}
                 renderItem={({ item }) => (
                     <PostCardItem
-                        title={item.name}
-                        author={item.description}
-                       // onEdit={() => edit(item.id, item.description, item.name)}
-                       // onDelete={() => deleteDish(item.id)}
+                        title={item.client}
+                        author={item.comment}
+                        onEdit={() => edit(item.id, item.comment, item.client)}
+                        onDelete={() => deleteComment(item.id)}
                     />
                 )}
             />
-            {/*
             <ModalView
                 visible={visible}
-                title="Add Dish"
+                title="Add Comment"
                 onDismiss={() => setVisible(false)}
                 onSubmit={() => {
-                    if (dishId && description && name) {
-                        editDish(dishId, description, name)
+                    if (clientId && comment && client) {
+                        editComment(clientId, comment, client)
                     } else {
-                        addDish(description, name)
+                        addComment(comment, client)
                     }
                 }}
                 cancelable>
                 <TextInput
-                    label="Nume"
-                    value={name}
-                    onChangeText={(text) => setName(text)}
+                    label="Nume client"
+                    value={client}
+                    onChangeText={(text) => setClient(text)}
                     mode="outlined"
                 />
                 <TextInput
-                    label="Descriere"
-                    value={description}
-                    onChangeText={(text) => setDescription(text)}
+                    label="Comentariu"
+                    value={comment}
+                    onChangeText={(text) => setComment(text)}
                     mode="outlined"
                 />
-                
+
             </ModalView>
-            */}
         </SafeAreaView>
     );
 }
@@ -154,18 +150,18 @@ const styles = StyleSheet.create({
         flex: 1,
         backgroundColor: '#fff',
         justifyContent: 'center',
-        backgroundColor:'#943ddb',
+        backgroundColor: '#08fc6e',
     },
     header: {
         marginTop: Platform.OS === 'android' ? 35 : 0,
         padding: 16,
         elevation: 2,
-        flexDirection:'row',
-        justifyContent:'space-between',
+        flexDirection: 'row',
+        justifyContent: 'space-between',
         alignItems: 'center',
-        backgroundColor:'white',
-         
-        
+        backgroundColor: 'white',
+
+
     },
     button: {
         padding: 10,

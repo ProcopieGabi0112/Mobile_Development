@@ -2,11 +2,13 @@ import React,{useState} from 'react'
 import {View,Button,Text,Image,ScrollView} from 'react-native'
 import { TextInput } from 'react-native-gesture-handler'
 import { useNavigation } from '@react-navigation/native';
+import { LogBox } from 'react-native';
 
 const Home = ({navigation}) => {
      const [UserCounter,setUserCounter] = useState(0) 
      const [LikeCounter,setLikeCounter] = useState(0) 
      const [SubscribeCounter, setSubscribeCounter] = useState(0) 
+     
      return (
          <ScrollView style={{ backgroundColor: 'white' }} showsVerticalScrollIndicator={false}>
          <View style={{flex:1,justifyContent:'center',alignItems:'center',backgroundColor:'black',height:805}}>
