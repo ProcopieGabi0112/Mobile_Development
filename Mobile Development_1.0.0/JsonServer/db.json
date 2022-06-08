@@ -1,0 +1,68 @@
+{
+  "dishes": [
+    {
+      "name": "Creveti in sos Saganaki",
+      "description": "(creveti black tiger, busuioc, legume)",
+      "id": 1
+    },
+    {
+      "name": "Caracatita la gratar",
+      "description": "(Caracatita, salata mixta, dressing)",
+      "id": 2
+    },
+    {
+      "name": "File de somon",
+      "description": "(mix de fasole si sos olandez)",
+      "id": 3
+    },
+    {
+      "name": "Spaghete cu fructe de mare",
+      "description": "(spaghete integrale, parmezan)",
+      "id": 4
+    }
+  ],
+  "comments": [
+    {
+      "client": "Alin Ceausu",
+      "comment": "Ceva aparte",
+      "id": 1
+    },
+    {
+      "client": "Bogdan Granski",
+      "comment": "Mai vin pe aici",
+      "id": 2
+    },
+    {
+      "client": "Simona Petrescu",
+      "comment": "dincolo era mai ieftin",
+      "id": 3
+    },
+    {
+      "client": "Procopie Gabriel",
+      "comment": "Mi-a placut modul in care am fost tratat",
+      "id": 4
+    }
+  ],
+  "orders": [
+    {
+      "table": "1",
+      "order": "Salata Caesar",
+      "id": 1
+    },
+    {
+      "table": "2",
+      "order": "Somon afumat",
+      "id": 2
+    },
+    {
+      "table": "3",
+      "order": "Mamaliguta cu branza si smantana",
+      "id": 3
+    },
+    {
+      "table": "4",
+      "order": "Ciorba de burta",
+      "id": 4
+    }
+  ]
+}
